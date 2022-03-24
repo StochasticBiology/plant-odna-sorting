@@ -70,5 +70,19 @@ maxlik(rkimura(100, 0.5, 0.5))
 maxlik(rkimura(10, 0.2, 0.5))
 maxlik(rkimura(20, 0.7, 0.9))
 
+#### redo with outlier/awkward case removal
+t2.pt.prime = t2.pt[-c(1,2)]
+t3.mt.prime = t3.mt[-1]
+t4.mt.prime = t4.mt[-1]
+t2.test.prime = kimura_lrt(t2.mt, t2.pt.prime)
+t3.test.1.prime = kimura_lrt(t3.mt.prime, t3.pt)	
+t3.test.2.prime = kimura_lrt(t3.mt.prime, t2.mt)
+t4.test.prime = kimura_lrt(t2.mt, t4.mt.prime)	
+
+res.text = c(res.text, paste(c("Table 2* LRT: MT ", r(t2.test.prime$h1.n.hat), " (", r(t2.test.prime$h1.n.ci.1.), "-", r(t2.test.prime$h1.n.ci.2.), ") vs PT ", r(t2.test.prime$h2.n.hat), " (", r(t2.test.prime$h2.n.ci.1.), "-", r(t2.test.prime$h2.n.ci.2.), ") p = ", t2.test.prime$pval, ""), collapse=""))
+res.text = c(res.text, paste(c("Table 3* LRT: Tissue MT ", r(t3.test.1.prime$h1.n.hat), " (", r(t3.test.1.prime$h1.n.ci.1.), "-", r(t3.test.1.prime$h1.n.ci.2.), ") vs Tissue PT ", r(t3.test.1.prime$h2.n.hat), " (", r(t3.test.1.prime$h2.n.ci.1.), "-", r(t3.test.1.prime$h2.n.ci.2.), ") p = ", t3.test.1.prime$pval, ""), collapse=""))
+res.text = c(res.text, paste(c("Table 3* LRT: Tissue MT ", r(t3.test.2.prime$h1.n.hat), " (", r(t3.test.2.prime$h1.n.ci.1.), "-", r(t3.test.2.prime$h1.n.ci.2.), ") vs Gen MT ", r(t3.test.2.prime$h2.n.hat), " (", r(t3.test.2.prime$h2.n.ci.1.), "-", r(t3.test.2.prime$h2.n.ci.2.), ") p = ", t3.test.2.prime$pval, ""), collapse=""))
+res.text = c(res.text, paste(c("Table 4* LRT: MSH1 ", r(t4.test.prime$h1.n.hat), " (", r(t4.test.prime$h1.n.ci.1.), "-", r(t4.test.prime$h1.n.ci.2.), ") vs WT MT ", r(t4.test.prime$h2.n.hat), " (", r(t4.test.prime$h2.n.ci.1.), "-", r(t4.test.prime$h2.n.ci.2.), ") p = ", t4.test.prime$pval, ""), collapse=""))
+
 # output results
 res.text
